@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Shit Pile Home</h1>
+  <p>Welcome to LocalLibrary, a website developed by <em>Mozilla Developer Network</em>!</p>
+  <h2>Dynamic content</h2>
+  <p>The library has the following record counts:</p>
+  <ul>
+    <li><strong>Piles:</strong> {{ num_piles }}</li>
+    <li><strong>Locations:</strong> {{ num_locations }}</li>
+    <li><strong>Logs:</strong> {{ num_logs }}</li>
+    <li><strong>Pile number in primary stage:</strong> {{ whos_in_primary }}</li>
+    <hr>
+    <li><strong>Next action:</strong> {{ pile.next_loc_move }}</li>
+    <li>Move pile <strong>{{ next_pile }}</strong> on this date <strong>{{ next_date }}</strong></li>
+  </ul>
+{% endblock %}

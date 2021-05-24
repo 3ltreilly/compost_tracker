@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Location List</h1>
+  {% if location_list %}
+  <ul>
+    {% for loc in location_list %}
+      <li>
+        <a href="{{ pile.get_absolute_url }}">{{ loc.location }}</a> ({{loc.days_at_state}})
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no piles in the library.</p>
+  {% endif %} 
+{% endblock %}

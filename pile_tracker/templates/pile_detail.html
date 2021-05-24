@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Title: {{ id }}</h1>
+
+  <p><strong>Location:</strong> <a href="">{{ location }}</a></p> 
+  <p><strong>Date Started:</strong> {{ born_date }} <strong>Feedstock:</strong> {{ feedstock }}</p>
+  <p>Last turned: {{ last_turned }}</p>
+  <p>Last Move: {{ last_moved }}</p>
+  <p>Next Move: {{ next_move }}</p>
+
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Brown Logs</h4>
+
+    {% for log in log_pile %}
+    <hr>
+      <p><strong>date:</strong> {{ log.date }} <strong>temp:</strong> {{ log.temp }}</p>
+      {% if log.turn %}
+      <p><strong>turn:</strong> {{ log.turn }}</p>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endblock %}
