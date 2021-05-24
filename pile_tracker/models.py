@@ -51,7 +51,7 @@ class Log(models.Model):
 
     # how to set the default pile as the one that's in the Primary stage?
     def pile_in_primary():
-        return Pile.objects.filter(location__exact=1)
+        return Pile.objects.filter(location__exact=2)
 
     pile = models.ForeignKey('Pile',on_delete=models.CASCADE, null=True)
 

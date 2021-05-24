@@ -31,8 +31,7 @@ def index(request):
     num_piles = Pile.objects.all().count()
     num_locations = Location.objects.all().count()
     num_logs = Log.objects.all().count()
-    whos_in_primary = 1
-    whos_in_primary = Pile.objects.filter(location__exact=1).first()
+    whos_in_primary = Pile.objects.filter(location__exact=2).first()
 
     wip = {}
     for pile in Pile.objects.all():
