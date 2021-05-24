@@ -53,7 +53,7 @@ class Log(models.Model):
     def pile_in_primary():
         return Pile.objects.filter(location__exact=1)
 
-    pile = models.ForeignKey('Pile',on_delete=models.CASCADE, default=pile_in_primary,null=True)
+    pile = models.ForeignKey('Pile',on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         """String for representing the Model object."""
