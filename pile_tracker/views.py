@@ -94,6 +94,9 @@ class LogCreate(CreateView):
     model = Log
     fields = ['date', 'temp']
     fields = '__all__'
-    initial = {'pile': Log.pile_in_primary()[0].id}
+    initial = {
+        'pile': Log.pile_in_primary()[0].id,
+        'air_temp': Log.get_cur_temp()
+        }
 
     success_url = reverse_lazy('index')

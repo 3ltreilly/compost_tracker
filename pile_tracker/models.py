@@ -3,6 +3,8 @@
 from django.db import models
 from datetime import datetime
 from django.urls import reverse # Used to generate URLs by reversing the URL patterns
+import sqlite3
+import os
 
 # Create your models here.
 class Pile(models.Model):
@@ -46,14 +48,24 @@ class Log(models.Model):
     turn = models.BooleanField(default=False)
     move_to = models.ForeignKey('Location',on_delete=models.RESTRICT, null=True, blank=True, help_text='new location for the pile')
     notes = models.CharField(max_length=200, help_text='general notes',null=True, blank=True)
-
+    pile = models.ForeignKey('Pile',on_delete=models.CASCADE, null=True)
     # make a method to grab current ambient temp?
 
     # how to set the default pile as the one that's in the Primary stage?
     def pile_in_primary():
         return Pile.objects.filter(location__exact=2)
 
-    pile = models.ForeignKey('Pile',on_delete=models.CASCADE, null=True)
+    def get_cur_temp():
+        db_name = "home-assistant_v2.db"
+        db_path = "/Users/mega_man/.homeassistant"
+        the_db = os.path.join(db_path, db_name)     
+
+        con = sqlite3.connect(the_db)
+        cur = con.cursor()
+        cur.execute('SELECT * FROM states WHERE entity_id="sensor.bunker_hill_temp" ORDER BY last_changed DESC LIMIT 1;')
+        # position 3 has the temperature
+        cur_temp = cur.fetchone()[3]
+        return cur_temp
 
     def __str__(self):
         """String for representing the Model object."""
