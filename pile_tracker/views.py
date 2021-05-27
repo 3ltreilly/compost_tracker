@@ -7,6 +7,8 @@ from datetime import datetime, timedelta
 import pytz
 from django.utils.dateparse import parse_date
 from django.shortcuts import get_object_or_404
+import sqlite3
+import os
 
 # useful functions
 def last_moved(pk):

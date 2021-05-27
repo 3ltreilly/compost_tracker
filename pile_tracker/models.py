@@ -43,7 +43,7 @@ class Log(models.Model):
     
     date = models.DateTimeField(default=datetime.now)
     temp = models.IntegerField(null=True, blank=True)
-    air_temp = models.IntegerField(null=True, blank=True)
+    
     mosture_content = models.IntegerField(null=True, blank=True)
     turn = models.BooleanField(default=False)
     move_to = models.ForeignKey('Location',on_delete=models.RESTRICT, null=True, blank=True, help_text='new location for the pile')
@@ -65,7 +65,10 @@ class Log(models.Model):
         cur.execute('SELECT * FROM states WHERE entity_id="sensor.bunker_hill_temp" ORDER BY last_changed DESC LIMIT 1;')
         # position 3 has the temperature
         cur_temp = cur.fetchone()[3]
+        con.close()
         return cur_temp
+        
+    air_temp = models.IntegerField(null=True, blank=True, default=get_cur_temp())
 
     def __str__(self):
         """String for representing the Model object."""
