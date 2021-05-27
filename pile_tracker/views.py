@@ -10,6 +10,10 @@ from django.shortcuts import get_object_or_404
 import sqlite3
 import os
 
+from pile_tracker.forms import LogModelForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 # useful functions
 def last_moved(pk):
     id = get_object_or_404(Pile, pk=pk)
@@ -92,13 +96,54 @@ def PileDetailView(request, pk):
 class LocationListView(generic.ListView):
     model = Location
 
-class LogCreate(CreateView):
-    model = Log
-    fields = ['date', 'temp']
-    fields = '__all__'
-    initial = {
-        'pile': Log.pile_in_primary()[0].id,
-        'air_temp': Log.get_cur_temp()
-        }
+# class LogCreate(CreateView):
+#     model = Log
+#     fields = ['date', 'temp']
+#     fields = '__all__'
+#     initial = {
+#         'pile': Log.pile_in_primary()[0].id,
+#         'air_temp': Log.get_cur_temp()
+#         }
 
-    success_url = reverse_lazy('index')
+#     success_url = reverse_lazy('index')
+
+def logcreate(request):
+    # the_log = get_object_or_404(Log)
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = LogModelForm(request.POST)
+
+        # # Check if the form is valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
+            date = form.cleaned_data['date']
+            temp = form.cleaned_data['temp']
+            mosture_content = form.cleaned_data['mosture_content']
+            turn = form.cleaned_data['turn']
+            move_to = form.cleaned_data['move_to']
+            notes = form.cleaned_data['notes']
+            pile = form.cleaned_data['pile']
+            
+            log = Log(date = date, temp = temp, mosture_content =mosture_content,turn=turn,move_to=move_to,notes=notes,pile=pile)
+            log.save()
+
+            # redirect to a new URL:
+        return HttpResponseRedirect(reverse('index') )
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        # proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
+        form = LogModelForm(initial = {
+            'date':datetime.now,
+            'pile': Log.pile_in_primary()[0].id,
+            'air_temp': Log.get_cur_temp()
+            })
+
+    context = {
+        'form': form,
+        # 'the_log': the_log,
+    }
+
+    return render(request, 'pile_tracker/log_form.html', context=context)

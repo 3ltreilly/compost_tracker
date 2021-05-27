@@ -9,5 +9,5 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('log/', views.LogCreate.as_view(), name='log-create'),
+    path('log/', views.logcreate, name='log-create'),
 ]

@@ -64,11 +64,11 @@ class Log(models.Model):
         cur = con.cursor()
         cur.execute('SELECT * FROM states WHERE entity_id="sensor.bunker_hill_temp" ORDER BY last_changed DESC LIMIT 1;')
         # position 3 has the temperature
-        cur_temp = cur.fetchone()[3]
+        cur_temp = int(float(cur.fetchone()[3]))
         con.close()
         return cur_temp
         
-    air_temp = models.IntegerField(null=True, blank=True, default=get_cur_temp())
+    air_temp = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         """String for representing the Model object."""

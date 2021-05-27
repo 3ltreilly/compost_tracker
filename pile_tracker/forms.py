@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from django import forms
 from django.core.exceptions import ValidationError
@@ -7,11 +7,28 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.forms import ModelForm
 
-from catalog.models import Pile
+# from catalog.models import Pile
+stages = (
+        ('',''),
+        ('Collection', 'Collection'),
+        ('Primary', 'Primary'),
+        ('Secondary', 'Secondary'),
+        ('Cure/Storate', 'Cure/Storate'),
+    )
 
-class LogModelForm(ModelForm):
-    def clean_due_back(self):
-       data = self.cleaned_data['due_back']
+class LogModelForm(forms.Form):
+   date = forms.DateTimeField()
+   temp = forms.IntegerField()
+   mosture_content = forms.IntegerField(required=False)
+   turn = forms.BooleanField(required=False)
+   move_to = forms.CharField(required=False, help_text='new location for the pile', widget=forms.Select(choices=stages),initial='')
+   notes = forms.CharField(required=False, max_length=200, help_text='general notes')
+
+   pile = forms.IntegerField()
+   air_temp = forms.IntegerField(required=False)
+
+   def clean_due_back(self):
+      data = self.cleaned_data['due_back']
 
     #    # Check if a date is not in the past.
     #    if data < datetime.date.today():
@@ -22,8 +39,12 @@ class LogModelForm(ModelForm):
     #        raise ValidationError(_('Invalid date - renewal more than 4 weeks ahead'))
 
        # Remember to always return the cleaned data.
-       return data
+      return data
 
-    class Meta:
-        model = Log
-        fields = ['date', 'temp']
+   # def save(self):
+   #    data = self.cleaned_data
+   #    log = Log(date = 'date')
+
+   #  class Meta:
+   #      model = Log
+   #      fields = ['date', 'temp']
