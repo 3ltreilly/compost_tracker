@@ -9,7 +9,7 @@ from django.forms import ModelForm
 
 # from catalog.models import Pile
 stages = (
-        ('',''),
+        ('','---------'),
         ('Collection', 'Collection'),
         ('Primary', 'Primary'),
         ('Secondary', 'Secondary'),
@@ -21,7 +21,17 @@ class LogModelForm(forms.Form):
    temp = forms.IntegerField()
    mosture_content = forms.IntegerField(required=False)
    turn = forms.BooleanField(required=False)
-   move_to = forms.CharField(required=False, help_text='new location for the pile', widget=forms.Select(choices=stages),initial='')
+
+
+   # move_to = forms.ChoiceField(required=False, help_text='new location for the pile', widget=forms.Select, choices=stages,initial='')
+   move_to = forms.CharField(
+      required=False,
+      max_length=12,
+      widget=forms.Select(choices=stages),
+      help_text='current location for pile',
+    )
+
+
    notes = forms.CharField(required=False, max_length=200, help_text='general notes')
 
    pile = forms.IntegerField()
