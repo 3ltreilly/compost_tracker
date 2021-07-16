@@ -97,7 +97,7 @@ class LogCreate(CreateView):
     fields = ['date', 'temp']
     fields = '__all__'
     initial = {
-        'pile': Log.pile_in_primary()[0].id,
+        'pile': Log.pile_in_primary(),
         'air_temp': Log.get_cur_temp()
         }
 

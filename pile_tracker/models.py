@@ -53,7 +53,13 @@ class Log(models.Model):
 
     # how to set the default pile as the one that's in the Primary stage?
     def pile_in_primary():
-        return Pile.objects.filter(location__exact=2)
+        try:
+            the_pile = Pile.objects.filter(location__exact=2)[0]
+            return Pile.objects.filter(location__exact=2)[0].id
+        except IndexError:
+            return 0
+
+        # return Pile.objects.filter(location__exact=2)
 
     def get_cur_temp():
         db_name = "home-assistant_v2.db"
