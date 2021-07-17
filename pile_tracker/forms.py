@@ -23,12 +23,12 @@ class LogModelForm(forms.Form):
    turn = forms.BooleanField(required=False)
 
 
-   # move_to = forms.ChoiceField(required=False, help_text='new location for the pile', widget=forms.Select, choices=stages,initial='')
-   move_to = forms.CharField(
+   # location = forms.ChoiceField(required=False, help_text='new location for the pile', widget=forms.Select, choices=stages,initial='')
+   location = forms.CharField(
       required=False,
       max_length=12,
       widget=forms.Select(choices=stages),
-      help_text='current location for pile',
+      help_text='current location of pile',
     )
 
 

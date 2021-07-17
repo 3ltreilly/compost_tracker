@@ -46,7 +46,7 @@ class Log(models.Model):
     
     mosture_content = models.IntegerField(null=True, blank=True)
     turn = models.BooleanField(default=False)
-    move_to = models.ForeignKey('Location',on_delete=models.RESTRICT, null=True, blank=True, help_text='new location for the pile')
+    location = models.ForeignKey('Location',on_delete=models.RESTRICT, null=True, blank=True, help_text='new location for the pile')
     notes = models.CharField(max_length=200, help_text='general notes',null=True, blank=True)
     pile = models.ForeignKey('Pile',on_delete=models.CASCADE, null=True)
     # make a method to grab current ambient temp?

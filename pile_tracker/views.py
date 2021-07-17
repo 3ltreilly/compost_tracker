@@ -19,7 +19,7 @@ def last_moved(pk):
     id = get_object_or_404(Pile, pk=pk)
     log_pile = Log.objects.filter(pile__exact=pk)
     try:
-        last_moved_date = log_pile.filter(move_to__exact=id.location).latest('date').date
+        last_moved_date = log_pile.filter(location__exact=id.location).latest('date').date
     except:
         last_moved_date = datetime.combine(id.born_date, datetime.min.time(), pytz.UTC)
     return last_moved_date
@@ -108,6 +108,9 @@ class LocationListView(generic.ListView):
 #     success_url = reverse_lazy('index')
 
 def logcreate(request):
+    # get Pile info to do stuff with it
+    primary_pile = Log.pile_in_primary()[0].id
+    id = get_object_or_404(Pile, pk=primary_pile)
     # the_log = get_object_or_404(Log)
     # If this is a POST request then process the Form data
     if request.method == 'POST':
@@ -122,11 +125,11 @@ def logcreate(request):
             temp = form.cleaned_data['temp']
             mosture_content = form.cleaned_data['mosture_content']
             turn = form.cleaned_data['turn']
-            move_to = form.cleaned_data['move_to']
+            location = form.cleaned_data['location']
             notes = form.cleaned_data['notes']
             pile = form.cleaned_data['pile']
             
-            log = Log(date = date, temp = temp, mosture_content =mosture_content,turn=turn,move_to=move_to,notes=notes,pile=pile)
+            log = Log(date = date, temp = temp, mosture_content =mosture_content,turn=turn,location=location,notes=notes,pile=pile)
             log.save()
 
             # redirect to a new URL:
@@ -138,7 +141,9 @@ def logcreate(request):
         form = LogModelForm(initial = {
             'date':datetime.now,
             'pile': Log.pile_in_primary()[0].id,
-            'air_temp': Log.get_cur_temp()
+            'air_temp': Log.get_cur_temp(),
+            # 'location': id.location,
+            # 'location': Location.objects.filter(location__exact=id.location),
             })
 
     context = {
