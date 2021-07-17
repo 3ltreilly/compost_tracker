@@ -110,6 +110,7 @@ class LocationListView(generic.ListView):
 def logcreate(request):
     # get Pile info to do stuff with it
     primary_pile = Log.pile_in_primary()[0].id
+    # Pile.objects.get(id=Log.pile_in_primary()[0].id)     ?????
     id = get_object_or_404(Pile, pk=primary_pile)
     # the_log = get_object_or_404(Log)
     # If this is a POST request then process the Form data
@@ -125,9 +126,10 @@ def logcreate(request):
             temp = form.cleaned_data['temp']
             mosture_content = form.cleaned_data['mosture_content']
             turn = form.cleaned_data['turn']
-            location = form.cleaned_data['location']
-            notes = form.cleaned_data['notes']
-            pile = form.cleaned_data['pile']
+            location = Location.objects.filter(location__exact=form.cleaned_data['location'])[0]
+            notes =   form.cleaned_data['notes']
+            # pile = form.cleaned_data['pile']
+            pile = id
             
             log = Log(date = date, temp = temp, mosture_content =mosture_content,turn=turn,location=location,notes=notes,pile=pile)
             log.save()
@@ -140,9 +142,10 @@ def logcreate(request):
         # proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
         form = LogModelForm(initial = {
             'date':datetime.now,
-            'pile': Log.pile_in_primary()[0].id,
+            # 'pile': Log.pile_in_primary()[0].id,
+            'pile': Pile.objects.get(id=Log.pile_in_primary()[0].id),
             'air_temp': Log.get_cur_temp(),
-            # 'location': id.location,
+            'location': id.location,
             # 'location': Location.objects.filter(location__exact=id.location),
             })
 
