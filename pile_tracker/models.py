@@ -83,7 +83,7 @@ class Location(models.Model):
         ('Collection', 'Collection'),
         ('Primary', 'Primary'),
         ('Secondary', 'Secondary'),
-        ('Cure/Storate', 'Cure/Storate'),
+        ('Cure/Storage', 'Cure/Storage'),
     )
 
     location = models.CharField(

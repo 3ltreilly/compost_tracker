@@ -13,7 +13,7 @@ stages = (
         ('Collection', 'Collection'),
         ('Primary', 'Primary'),
         ('Secondary', 'Secondary'),
-        ('Cure/Storate', 'Cure/Storate'),
+        ('Cure/Storage', 'Cure/Storage'),
     )
 
 class LogModelForm(forms.Form):

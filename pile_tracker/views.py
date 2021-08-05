@@ -41,10 +41,11 @@ def index(request):
 
     wip = {}
     for pile in Pile.objects.all():
-        wip.update({
-            # pile.id: next_move(pile.id)
-            next_move(pile.id): pile.id
-        })
+        if pile.location.location != 'Cure/Storage':
+            wip.update({
+                # pile.id: next_move(pile.id)
+                next_move(pile.id): pile.id
+            })
     next_pile = wip[sorted(wip)[0]]
     next_date = sorted(wip)[0]
     
