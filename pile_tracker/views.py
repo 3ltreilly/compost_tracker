@@ -110,9 +110,15 @@ class LocationListView(generic.ListView):
 
 def logcreate(request):
     # get Pile info to do stuff with it
-    primary_pile = Log.pile_in_primary()[0].id
+    try:
+        primary_pile = Log.pile_in_primary()[0].id
+        id = get_object_or_404(Pile, pk=primary_pile)
+        location = id.location
+    except:
+        primary_pile = ''
+        location = ''
     # Pile.objects.get(id=Log.pile_in_primary()[0].id)     ?????
-    id = get_object_or_404(Pile, pk=primary_pile)
+    
     # the_log = get_object_or_404(Log)
     # If this is a POST request then process the Form data
     if request.method == 'POST':
@@ -127,13 +133,25 @@ def logcreate(request):
             temp = form.cleaned_data['temp']
             mosture_content = form.cleaned_data['mosture_content']
             turn = form.cleaned_data['turn']
-            location = Location.objects.filter(location__exact=form.cleaned_data['location'])[0]
+
+
             notes =   form.cleaned_data['notes']
+
+            pile = form.cleaned_data['pile'].first()   #get_object_or_404(Pile, pk=form.cleaned_data['pile'])
             # pile = form.cleaned_data['pile']
-            pile = id
+
+            if form.cleaned_data['location'] == '':
+                location = Location.objects.filter(pile__exact=pile).first()
+            else:
+                location = Location.objects.filter(location__exact=form.cleaned_data['location']).first()
             
+            # save the new log
             log = Log(date = date, temp = temp, mosture_content =mosture_content,turn=turn,location=location,notes=notes,pile=pile)
             log.save()
+            # save over the pile again to capture the updated location
+            if location:
+                pile_update = Pile(id=pile.id, born_date=pile.born_date, feedstock=pile.feedstock, location=location)
+                pile_update.save()
 
             # redirect to a new URL:
         return HttpResponseRedirect(reverse('index') )
@@ -144,9 +162,10 @@ def logcreate(request):
         form = LogModelForm(initial = {
             'date':datetime.now,
             # 'pile': Log.pile_in_primary()[0].id,
-            'pile': Pile.objects.get(id=Log.pile_in_primary()[0].id),
+            # 'pile': Pile.objects.get(id=Log.pile_in_primary()[0].id),
+            'pile': primary_pile,
             'air_temp': Log.get_cur_temp(),
-            'location': id.location,
+            'location': location,
             # 'location': Location.objects.filter(location__exact=id.location),
             })
 

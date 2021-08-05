@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django import forms
+from pile_tracker.models import Pile
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
@@ -34,7 +35,8 @@ class LogModelForm(forms.Form):
 
    notes = forms.CharField(required=False, max_length=200, help_text='general notes')
 
-   pile = forms.IntegerField()
+   # pile = forms.IntegerField()
+   pile = forms.ModelMultipleChoiceField(queryset=Pile.objects.all())
    air_temp = forms.IntegerField(required=False)
 
    def clean_due_back(self):
