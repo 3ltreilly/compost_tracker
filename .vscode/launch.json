@@ -5,12 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "shit pile",
             "type": "python",
             "request": "launch",
             "program": "manage.py",
             "console": "integratedTerminal",
-            "args": ["runserver", "192.168.7.32:8001"],
+            "args": ["runserver", "192.168.7.32:8000"],
         }
     ]
 }

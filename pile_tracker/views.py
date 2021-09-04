@@ -19,7 +19,7 @@ def last_moved(pk):
     id = get_object_or_404(Pile, pk=pk)
     log_pile = Log.objects.filter(pile__exact=pk)
     try:
-        last_moved_date = log_pile.filter(location__exact=id.location).latest('date').date
+        last_moved_date = log_pile.filter(location__exact=id.location).earliest('date').date
     except:
         last_moved_date = datetime.combine(id.born_date, datetime.min.time(), pytz.UTC)
     return last_moved_date
