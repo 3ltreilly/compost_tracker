@@ -76,7 +76,11 @@ def PileDetailView(request, pk):
 
     id = get_object_or_404(Pile, pk=pk)
     log_pile = Log.objects.filter(pile__exact=pk)
-    last_turned = log_pile.filter(turn__exact=True).latest('date').date
+    try:
+        last_turned = log_pile.filter(turn__exact=True).latest('date').date
+    # except ObjectDoesNotExist:
+    except:
+        last_turned = datetime.combine(id.born_date, datetime.min.time())
     
     n_m = next_move(pk)
     l_m = last_moved(pk)
