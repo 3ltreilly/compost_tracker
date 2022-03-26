@@ -1,17 +1,17 @@
-from django.shortcuts import render
-from django.views import generic
-from pile_tracker.models import Pile, Log, Location
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from datetime import datetime, timedelta
-import pytz
-from django.utils.dateparse import parse_date
-from django.shortcuts import get_object_or_404
+from datetime import datetime
+from datetime import timedelta
 
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+from django.urls import reverse
+from django.views import generic
+import pytz
 
 from pile_tracker.forms import LogModelForm
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+from pile_tracker.models import Location
+from pile_tracker.models import Log
+from pile_tracker.models import Pile
 
 
 # useful functions
@@ -142,7 +142,8 @@ def logcreate(request):
 
         # # Check if the form is valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
+            # process the data in form.cleaned_data as required
+            # (here we just write it to the model due_back field)
             date = form.cleaned_data["date"]
             temp = form.cleaned_data["temp"]
             mosture_content = form.cleaned_data["mosture_content"]
