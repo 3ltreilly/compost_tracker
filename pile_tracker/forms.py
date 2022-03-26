@@ -1,4 +1,3 @@
-
 from django import forms
 from pile_tracker.models import Pile
 from django.core.exceptions import ValidationError
