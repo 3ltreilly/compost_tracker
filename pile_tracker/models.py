@@ -56,22 +56,17 @@ class Log(models.Model):
         return Pile.objects.filter(location__exact=2)
 
     def get_cur_temp():
+        config = ConfigParser()
+        config.read("secrets.ini")
+        api_key = config["openweather"]["api_key"]
         # let's update to this api when it's ready
-        # https://api.openweathermap.org/data/2.5/weather?zip={06238},{US}&appid={b66602934f396a2ed2e9cfbe629bec99}
-
-        # db_name = "home-assistant_v2.db"
-        # db_path = "/Users/mega_man/.homeassistant"
-        # the_db = os.path.join(db_path, db_name)     
-
-        # con = sqlite3.connect(the_db)
-        # cur = con.cursor()
-        # cur.execute('SELECT * FROM states WHERE entity_id="sensor.bunker_hill_temp" ORDER BY last_changed DESC LIMIT 1;')
-        # # position 3 has the temperature
-        # cur_temp = int(float(cur.fetchone()[3]))
-        # con.close()
-        cur_temp = 50
+        weather_url = f"https://api.openweathermap.org/data/2.5/weather?zip=06238,US&units=imperial&appid={api_key}"
+        response = request.urlopen(weather_url)
+        data = response.read()
+        the_weather = json.loads(data)
+        cur_temp = int(the_weather["main"]["temp"])
         return cur_temp
-        
+
     air_temp = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
