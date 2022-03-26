@@ -33,10 +33,10 @@ class Pile(models.Model):
     # https://docs.djangoproject.com/en/dev/ref/models/querysets/#field-lookups
     # def last_turned(self):
     #     return Log.objects.latest('turn')
-    def next_loc_move(self):
-        # move_date =
-        log_pile = Log.objects.filter(pile__exact=self.id)
-        return move_date
+    # def next_loc_move(self):
+    #     # move_date =
+    #     log_pile = Log.objects.filter(pile__exact=self.id)
+    #     return move_date
 
     def __str__(self):
         """String for representing the Model object."""
