@@ -11,6 +11,7 @@
             "program": "manage.py",
             "console": "integratedTerminal",
             "args": ["runserver", "192.168.7.32:9000"],
+            "django": true
         }
     ]
 }
