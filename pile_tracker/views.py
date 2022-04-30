@@ -9,6 +9,7 @@ from django.views import generic
 import pytz
 
 from pile_tracker.forms import LogModelForm
+from pile_tracker.forms import PileModelForm
 from pile_tracker.models import Location
 from pile_tracker.models import Log
 from pile_tracker.models import Pile
@@ -208,3 +209,63 @@ def logcreate(request):
     }
 
     return render(request, "pile_tracker/log_form.html", context=context)
+
+
+def pilecreate(request):
+    # get Pile info to do stuff with it
+    try:
+        primary_pile = Log.pile_in_primary()[0].id
+        id = get_object_or_404(Pile, pk=primary_pile)
+        location = id.location
+    except:
+        primary_pile = ""
+        location = ""
+
+    # If this is a POST request then process the Form data
+    if request.method == "POST":
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = PileModelForm(request.POST)
+
+        # # Check if the form is valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # (here we just write it to the model due_back field)
+            born_date = form.cleaned_data["born_date"]
+            id = form.cleaned_data[
+                "id"
+            ]
+
+            if form.cleaned_data["location"] == "":
+                location = Location.objects.filter(pile__exact=id).first()
+            else:
+                location = Location.objects.filter(
+                    location__exact=form.cleaned_data["location"]
+                ).first()
+
+            # save the new log
+            pile = Pile(
+                born_date=born_date,
+                location=location,
+                id=id,
+            )
+            pile.save()
+
+            # redirect to a new URL:
+        return HttpResponseRedirect(reverse("index"))
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        form = PileModelForm(
+            initial={
+                "born_date": datetime.now,
+                "pile": primary_pile,
+                "location": location,
+            }
+        )
+
+    context = {
+        "form": form,
+    }
+
+    return render(request, "pile_tracker/pile_form.html", context=context)
