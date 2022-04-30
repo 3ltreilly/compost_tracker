@@ -1,7 +1,7 @@
 from django import forms
 from pile_tracker.models import Pile
 from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 from django.forms import ModelForm
