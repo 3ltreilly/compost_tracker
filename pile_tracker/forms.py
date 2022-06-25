@@ -18,7 +18,7 @@ stages = (
 
 class LogModelForm(forms.Form):
     date = forms.DateTimeField()
-    temp = forms.IntegerField()
+    temp = forms.IntegerField(required=False)
     mosture_content = forms.IntegerField(required=False)
     turn = forms.BooleanField(required=False)
 
