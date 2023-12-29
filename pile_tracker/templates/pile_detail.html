@@ -1,24 +1,67 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Title: {{ id }}</h1>
+<h1>Title: {{ id }}</h1>
 
-  <p><strong>Location:</strong> <a href="">{{ location }}</a></p> 
-  <p><strong>Date Started:</strong> {{ born_date }} <strong>Feedstock:</strong> {{ feedstock }}</p>
-  <p>Last turned: {{ last_turned }}</p>
-  <p>Last Move: {{ last_moved }}</p>
-  <p>Next Move: {{ next_move }}</p>
+<p><strong>Location:</strong> <a href="">{{ location }}</a></p>
+<p><strong>Date Started:</strong> {{ born_date }} <strong>Feedstock:</strong> {{ feedstock }}</p>
+<p>Last turned: {{ last_turned }}</p>
+<p>Last Move: {{ last_moved }}</p>
+<p>Next Move: {{ next_move }}</p>
 
 
-  <div style="margin-left:20px;margin-top:20px">
-    <h4>Brown Logs</h4>
+<div style="margin-left:20px;margin-top:20px">
+  <h4>Brown Logs</h4>
 
-    {% for log in log_pile %}
-    <hr>
-      <p><strong>date:</strong> {{ log.date }} <strong>temp:</strong> {{ log.temp }}</p>
-      {% if log.turn %}
-      <p><strong>turn:</strong> {{ log.turn }}</p>
-      {% endif %}
-    {% endfor %}
-  </div>
+  {% for log in log_pile %}
+  <hr>
+  <p><strong>date:</strong> {{ log.date }} <strong>temp:</strong> {{ log.temp }}</p>
+  {% if log.turn %}
+  <p><strong>turn:</strong> {{ log.turn }}</p>
+  {% endif %}
+  {% endfor %}
+</div>
+
+<!-- Add chart of temp vs. date -->
+<div id="container" style="width: 75%;">
+  <canvas id="pie-chart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+<script>
+
+  const scat_data = {
+    datasets: [{
+      label: 'Scatter Dataset',
+      data: {{ data| safe}},
+  backgroundColor: 'rgb(255, 99, 132)'
+  }],
+};
+
+  const config = {
+    type: 'scatter',
+    data: scat_data,
+    options: {
+      scales: {
+        x: {
+          type: 'datetime',
+          time: {
+            unit: 'day'
+          },
+          position: 'bottom'
+        }
+      }
+    }
+  };
+
+  window.onload = function () {
+    var ctx = document.getElementById('pie-chart').getContext('2d');
+    window.myPie = new Chart(ctx, config);
+  };
+
+</script>
+
+
+
 {% endblock %}

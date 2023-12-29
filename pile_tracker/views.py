@@ -93,7 +93,15 @@ def PileDetailView(request, pk):
     n_m = next_move(pk)
     l_m = last_moved(pk)
 
+    # loop to make chart data
+    data = []
+    for log in log_pile:
+        if log.temp:
+            wip = {"x": log.date.timestamp(), "y": log.temp}
+            data.append(wip)
+
     context = {
+        "data": data,
         "id": id,
         "location": id.location,
         "born_date": id.born_date,
@@ -232,9 +240,7 @@ def pilecreate(request):
             # process the data in form.cleaned_data as required
             # (here we just write it to the model due_back field)
             born_date = form.cleaned_data["born_date"]
-            id = form.cleaned_data[
-                "id"
-            ]
+            id = form.cleaned_data["id"]
 
             if form.cleaned_data["location"] == "":
                 location = Location.objects.filter(pile__exact=id).first()
