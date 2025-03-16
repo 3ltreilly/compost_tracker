@@ -27,7 +27,7 @@ urlpatterns = [
 from django.views.generic import RedirectView
 
 urlpatterns += [
-    path("", RedirectView.as_view(url="pile_tracter/", permanent=True)),
+    path("", RedirectView.as_view(url="pile_tracker/", permanent=True)),
 ]
 
 # Use static() to add url mapping to serve static files during development (only)

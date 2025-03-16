@@ -25,7 +25,7 @@ SECRET_KEY = "5zm9dig_ef*r!eid+b2o1m)ee220eac!77w1bhp5rph3nowe*+"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.7.32"]
+ALLOWED_HOSTS = ["192.168.7.32", "localhost", "milhouse.local"]
 
 
 # Application definition
@@ -78,7 +78,7 @@ WSGI_APPLICATION = "compost_tracker.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR / "db" / "db.sqlite3",
     }
 }
 

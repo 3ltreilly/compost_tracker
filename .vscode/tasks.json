@@ -7,6 +7,42 @@
             "label": "open pile tracker",
             "type": "shell",
             "command": "open -a Safari http://192.168.7.32:8000/pile_tracker"
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build",
+            "platform": "python",
+            "dockerBuild": {
+                "tag": "hay-logger:latest",
+                "dockerfile": "${workspaceFolder}/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": [
+                "docker-build"
+            ],
+            "dockerRun": {
+                "volumes": [
+                    {
+                        "localPath": "${workspaceFolder}/db",
+                        "containerPath": "/app/db",
+                        "permissions": "rw"
+                    },
+                ]
+            },
+            "python": {
+                "args": [
+                    "runserver",
+                    "0.0.0.0:8001",
+                    "--nothreading",
+                    "--noreload"
+                ],
+                "file": "manage.py"
+            }
         }
     ]
 }
