@@ -10,8 +10,34 @@
             "request": "launch",
             "program": "manage.py",
             "console": "integratedTerminal",
-            "args": ["runserver", "192.168.7.32:9000"],
+            "args": ["runserver", "localhost:9000"],
             "django": true
+        },
+        {
+            "name": "Django",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "runserver"
+            ],
+            "django": true,
+            "autoStartBrowser": true,
+            "program": "${workspaceFolder}/manage.py"
+        },
+        {
+            "name": "Docker: Python - Django",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "python": {
+                "pathMappings": [
+                    {
+                        "localRoot": "${workspaceFolder}",
+                        "remoteRoot": "/app"
+                    }
+                ],
+                "projectType": "django"
+            }
         }
     ]
 }
