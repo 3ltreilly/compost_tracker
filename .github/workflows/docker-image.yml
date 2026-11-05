@@ -8,18 +8,40 @@ on:
 
 jobs:
 
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+    # same uv version as the Dockerfile; uv installs the Python in .python-version itself
+    - name: Install uv
+      uses: astral-sh/setup-uv@v10.3.3
+      with:
+        version: "0.11.2"
+    # dev group (pytest, pytest-django) is installed by default; --locked fails if uv.lock is stale
+    - name: Install dependencies
+      run: uv sync --locked
+    - name: Run tests
+      run: uv run pytest
+
   build:
 
+    # only build and push if the tests pass
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build --no-cache --platform linux/amd64 -t 3ltreilly/hay-logger .
+      run: docker build --no-cache --platform linux/amd64 -t 3ltreilly/compost_tracker .
+    # pull requests build the image as a check but never publish it
     - name: Log in to Docker Hub
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
       with:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
     - name: push to docker hub
-      run: docker push 3ltreilly/hay-logger
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      run: docker push 3ltreilly/compost_tracker

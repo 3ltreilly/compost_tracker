@@ -1,6 +1,7 @@
 {
-    "python.formatting.provider": "black",
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true,
-    "python.defaultInterpreterPath": ".venv/bin/python"
+    "python.testing.pytestArgs": [
+        "pile_tracker"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }
