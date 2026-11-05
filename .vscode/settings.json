@@ -1,0 +1,7 @@
+{
+    "python.testing.pytestArgs": [
+        "pile_tracker"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
