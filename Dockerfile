@@ -1,5 +1,5 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.10-slim
+FROM python:3.14-slim
 
 EXPOSE 8000
 
@@ -9,14 +9,19 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # Turns off buffering for easier container logging
 # tell poetry to now make a virtual env
 ENV PYTHONUNBUFFERED=1
-ENV POETRY_VIRTUALENVS_CREATE=false
 
-# Install pip requirements
-RUN pip install poetry==1.8.0
+# production: debug off. DJANGO_SECRET_KEY comes from the env file on the server
+ENV DJANGO_DEBUG=0
 
+# uv from its official image, pinned so builds are repeatable
+COPY --from=ghcr.io/astral-sh/uv:0.11.2 /uv /bin/uv
+# use this image's Python instead of downloading one, and copy packages into the venv
+# rather than linking them to uv's cache
+ENV UV_PYTHON_DOWNLOADS=never
+ENV UV_LINK_MODE=copy
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock ./
+COPY pyproject.toml uv.lock ./
 COPY compost_tracker ./compost_tracker
 COPY pile_tracker ./pile_tracker
 COPY manage.py ./
@@ -25,7 +30,7 @@ COPY readme.md ./
 # get the database, for debugging
 # COPY db.sqlite3 ./
 
-RUN poetry install --without dev
+RUN uv sync --locked --no-dev
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
