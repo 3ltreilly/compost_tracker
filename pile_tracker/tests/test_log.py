@@ -91,6 +91,26 @@ def test_air_temperature_drops_the_fraction(client, primary):
 
 
 @pytest.mark.requirement("LOG002")
+def test_weather_lookup_uses_api_key_from_environment(client):
+    with weather_says(50) as urlopen:
+        client.get(reverse("log-create"))
+
+    url = urlopen.call_args.args[0]
+    assert "appid=test-key" in url
+
+
+@pytest.mark.requirement("LOG002")
+def test_air_temperature_blank_when_no_api_key_is_set(client, monkeypatch):
+    monkeypatch.delenv("OPENWEATHER_API_KEY")
+
+    with weather_says(50) as urlopen:
+        response = client.get(reverse("log-create"))
+
+    assert response.context["form"].initial["air_temp"] is None
+    urlopen.assert_not_called()
+
+
+@pytest.mark.requirement("LOG002")
 def test_page_opens_with_blank_air_temperature_when_weather_is_down(client):
     response = client.get(reverse("log-create"))
 

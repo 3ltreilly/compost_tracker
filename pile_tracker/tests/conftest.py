@@ -11,6 +11,12 @@ def enable_db(db):
 
 
 @pytest.fixture(autouse=True)
+def weather_api_key(monkeypatch):
+    """Use a fake API key so tests never depend on the real environment."""
+    monkeypatch.setenv("OPENWEATHER_API_KEY", "test-key")
+
+
+@pytest.fixture(autouse=True)
 def weather_api_down():
     """Never reach the real weather API from tests; act as if it's unreachable."""
     with mock.patch("pile_tracker.models.request.urlopen", side_effect=OSError):

@@ -58,3 +58,4 @@ venv.bak/
 compost_tracker/.DS_Store
 db/diskstation.db.sqlite3
 .jamb
+.env

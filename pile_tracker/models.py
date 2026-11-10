@@ -1,10 +1,9 @@
 # https://docs.djangoproject.com/en/3.1/ref/models/fields/#django.db.models.IntegerField
 
 import json
-from configparser import ConfigParser
+import os
 from urllib import request
 
-from django.conf import settings
 from django.db import models
 from django.urls import reverse  # Used to generate URLs by reversing the URL patterns
 from django.utils import timezone
@@ -78,18 +77,18 @@ class Log(models.Model):
     @staticmethod
     def get_cur_temp():
         """Return the current air temperature in °F, or None if it can't be fetched."""
-        config = ConfigParser()
-        config.read(settings.BASE_DIR / "secrets.ini")
+        api_key = os.environ.get("OPENWEATHER_API_KEY")
+        if not api_key:
+            return None
         try:
-            api_key = config["openweather"]["api_key"]
             # let's update to this api when it's ready
             weather_url = f"https://api.openweathermap.org/data/2.5/weather?zip=06238,US&units=imperial&appid={api_key}"
             with request.urlopen(weather_url, timeout=5) as response:
                 the_weather = json.loads(response.read())
             return int(the_weather["main"]["temp"])
         except (OSError, KeyError, ValueError):
-            # OSError covers network errors and timeouts; KeyError a missing
-            # secrets.ini or an unexpected response; ValueError bad JSON.
+            # OSError covers network errors and timeouts; KeyError an
+            # unexpected response; ValueError bad JSON.
             return None
 
     air_temp = models.IntegerField(null=True, blank=True)

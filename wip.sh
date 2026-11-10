@@ -43,5 +43,14 @@ docker pull 3ltreilly/compost_tracker
 docker stop compost_tracker
 docker rm compost_tracker
 docker run --network host \
+--env-file /volume1/docker/compost_tracker/.env \
 -v /volume1/docker/compost_tracker/db:/app/db \
 --name compost_tracker 3ltreilly/compost_tracker
+# the app runs at http://milhouse.local:8001/pile_tracker/
+# it applies any new database migrations each time it starts
+
+# one-time setup: settings such as the weather API key live in
+# /volume1/docker/compost_tracker/.env on the DiskStation (same format as .env.example).
+# copy it there from this computer:
+scp .env 3ltreilly@milhouse.local:/volume1/docker/compost_tracker/.env
+# to change the key later, edit that file, then stop/rm/run the container again

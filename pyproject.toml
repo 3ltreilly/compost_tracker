@@ -1,6 +1,6 @@
 [project]
 name = "compost_tracker"
-version = "0.2.0"
+version = "0.3.0"
 description = "Track shit piles"
 authors = [{ name = "Bernie", email = "reilly_bernie@mac.com" }]
 requires-python = ">=3.12,<4"
