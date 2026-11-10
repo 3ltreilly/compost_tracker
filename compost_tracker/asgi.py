@@ -1,5 +1,4 @@
-"""
-ASGI config for compost_tracker project.
+"""ASGI config for compost_tracker project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

@@ -1,4 +1,5 @@
 from django.urls import path
+
 from . import views
 
 urlpatterns = [
@@ -11,5 +12,4 @@ urlpatterns = [
 urlpatterns += [
     path("log/", views.logcreate, name="log-create"),
     path("new_pile/", views.pilecreate, name="pile-create"),
-
 ]

@@ -42,7 +42,6 @@ def next_move(pk):
 # Create your views here.
 def index(request):
     """View function for home page of site."""
-
     # Generate counts of some of the main objects
     num_piles = Pile.objects.all().count()
     num_locations = Location.objects.all().count()

@@ -13,9 +13,7 @@ from django.utils import timezone
 class Pile(models.Model):
     """Model representing a shit pile"""
 
-    id = models.CharField(
-        max_length=20, primary_key=True, help_text="Unique ID for a pile"
-    )
+    id = models.CharField(max_length=20, primary_key=True, help_text="Unique ID for a pile")
 
     # pile start date
     born_date = models.DateField()
@@ -50,7 +48,6 @@ class Pile(models.Model):
 
 # logs for temp, dateline, ambient temp, mc, Daily weather?, picture?,
 class Log(models.Model):
-
     date = models.DateTimeField(default=timezone.now)
     temp = models.IntegerField(null=True, blank=True)
 
@@ -63,9 +60,7 @@ class Log(models.Model):
         blank=True,
         help_text="new location for the pile",
     )
-    notes = models.CharField(
-        max_length=200, help_text="general notes", null=True, blank=True
-    )
+    notes = models.CharField(max_length=200, help_text="general notes", null=True, blank=True)
     pile = models.ForeignKey("Pile", on_delete=models.CASCADE, null=True)
     # make a method to grab current ambient temp?
 
@@ -86,7 +81,7 @@ class Log(models.Model):
             with request.urlopen(weather_url, timeout=5) as response:
                 the_weather = json.loads(response.read())
             return int(the_weather["main"]["temp"])
-        except (OSError, KeyError, ValueError):
+        except OSError, KeyError, ValueError:
             # OSError covers network errors and timeouts; KeyError an
             # unexpected response; ValueError bad JSON.
             return None

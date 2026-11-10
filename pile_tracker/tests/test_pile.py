@@ -2,9 +2,9 @@
 
 import datetime
 
-import pytest
 from django.urls import reverse
 from django.utils import timezone
+import pytest
 from pytest_django.asserts import assertRedirects
 
 from pile_tracker.models import Location
@@ -81,9 +81,7 @@ def test_stage_not_set_up_is_refused(client, primary):
 
 
 @pytest.mark.requirement("PILE002")
-def test_duplicate_id_is_refused_and_existing_pile_unchanged(
-    client, collection, primary
-):
+def test_duplicate_id_is_refused_and_existing_pile_unchanged(client, collection, primary):
     make_pile("19", primary, born_date=datetime.date(2025, 1, 19))
 
     response = client.post(
@@ -180,9 +178,7 @@ def test_history_lists_logs_oldest_first_and_marks_turns(client, primary):
     response = pile_page(client, "19")
 
     content = response.content.decode()
-    assert content.index("<strong>temp:</strong> 150") < content.index(
-        "<strong>temp:</strong> 130"
-    )
+    assert content.index("<strong>temp:</strong> 150") < content.index("<strong>temp:</strong> 130")
     assert content.count("<strong>turn:</strong> True") == 1
 
 
@@ -205,9 +201,7 @@ def test_chart_has_a_point_per_temperature_including_zero(client, primary):
 
 
 @pytest.mark.requirement("PILE008")
-def test_next_move_counts_from_earliest_log_in_current_stage(
-    client, collection, primary
-):
+def test_next_move_counts_from_earliest_log_in_current_stage(client, collection, primary):
     primary.days_at_state = 42
     primary.save()
     pile = make_pile("19", primary, born_date=datetime.date(2025, 1, 19))

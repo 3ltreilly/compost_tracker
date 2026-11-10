@@ -2,8 +2,8 @@
 
 import datetime
 
-import pytest
 from django.urls import reverse
+import pytest
 
 from pile_tracker.tests.helpers import local_time
 from pile_tracker.tests.helpers import make_log

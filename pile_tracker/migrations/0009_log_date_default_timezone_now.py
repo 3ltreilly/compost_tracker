@@ -5,15 +5,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('pile_tracker', '0008_auto_20210804_1958'),
+        ("pile_tracker", "0008_auto_20210804_1958"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='log',
-            name='date',
+            model_name="log",
+            name="date",
             field=models.DateTimeField(default=django.utils.timezone.now),
         ),
     ]

@@ -26,7 +26,10 @@ Rules:
 
 ## Code style
 
-- One import per line, sorted.
+- Google Python Style Guide, enforced by ruff (config in `pyproject.toml`):
+  100-column lines (not Google's 80), one import per line, Google-style docstrings
+  (`Args:`/`Returns:`/`Raises:`). Check with `uv run ruff check` and
+  `uv run ruff format --check`.
 - Tests live in `pile_tracker/tests/`, one file per SRS area (`test_home.py`,
   `test_pile.py`, `test_log.py`, `test_stage.py`). Shared fixtures are in
   `conftest.py` (the weather API is always stubbed out), helpers in `helpers.py`.

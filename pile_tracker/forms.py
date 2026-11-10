@@ -1,11 +1,9 @@
 from django import forms
-from pile_tracker.models import Location
-from pile_tracker.models import Pile
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-
-from django.forms import ModelForm
+from pile_tracker.models import Location
+from pile_tracker.models import Pile
 
 # from catalog.models import Pile
 stages = (

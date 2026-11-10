@@ -3,9 +3,9 @@
 import datetime
 import re
 
-import pytest
 from django.urls import reverse
 from django.utils import timezone
+import pytest
 
 from pile_tracker.models import Location
 from pile_tracker.tests.helpers import make_log
@@ -15,7 +15,8 @@ from pile_tracker.tests.helpers import make_pile
 def primary_line(response):
     """The text of the 'Pile number in primary stage' line."""
     match = re.search(
-        r"Pile number in primary stage:</strong>(.*?)</li>", response.content.decode()
+        r"Pile number in primary stage:</strong>(.*?)</li>",
+        response.content.decode(),
     )
     return match.group(1).strip()
 

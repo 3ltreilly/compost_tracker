@@ -3,9 +3,9 @@
 import json
 from unittest import mock
 
-import pytest
 from django.urls import reverse
 from django.utils import timezone
+import pytest
 from pytest_django.asserts import assertRedirects
 
 from pile_tracker.models import Log

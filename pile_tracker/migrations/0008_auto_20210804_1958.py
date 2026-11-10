@@ -4,15 +4,24 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('pile_tracker', '0007_auto_20210716_1918'),
+        ("pile_tracker", "0007_auto_20210716_1918"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='location',
-            name='location',
-            field=models.CharField(blank=True, choices=[('Collection', 'Collection'), ('Primary', 'Primary'), ('Secondary', 'Secondary'), ('Cure/Storage', 'Cure/Storage')], help_text='current location for pile', max_length=12),
+            model_name="location",
+            name="location",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("Collection", "Collection"),
+                    ("Primary", "Primary"),
+                    ("Secondary", "Secondary"),
+                    ("Cure/Storage", "Cure/Storage"),
+                ],
+                help_text="current location for pile",
+                max_length=12,
+            ),
         ),
     ]
