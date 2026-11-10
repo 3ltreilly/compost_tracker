@@ -11,7 +11,10 @@
     <li><strong>Logs:</strong> {{ num_logs }}</li>
     <li><strong>Pile number in primary stage:</strong> {{ whos_in_primary }}</li>
     <hr>
-    <li><strong>Next action:</strong> {{ pile.next_loc_move }}</li>
-    <li>Move pile <strong>{{ next_pile }}</strong> on this date <strong>{{ next_date }}</strong></li>
+    {% if next_pile %}
+    <li><strong>Next action:</strong> move pile <strong>{{ next_pile }}</strong> on <strong>{{ next_date }}</strong></li>
+    {% else %}
+    <li><strong>Next action:</strong> no moves scheduled</li>
+    {% endif %}
   </ul>
 {% endblock %}

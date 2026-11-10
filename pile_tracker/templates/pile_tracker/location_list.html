@@ -6,11 +6,11 @@
   <ul>
     {% for loc in location_list %}
       <li>
-        <a href="{{ pile.get_absolute_url }}">{{ loc.location }}</a> ({{loc.days_at_state}})
+        {{ loc.location }} ({{ loc.days_at_state }} days)
       </li>
     {% endfor %}
   </ul>
   {% else %}
-    <p>There are no piles in the library.</p>
+    <p>There are no locations yet.</p>
   {% endif %} 
 {% endblock %}

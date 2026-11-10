@@ -1,11 +1,13 @@
 # https://docs.djangoproject.com/en/3.1/ref/models/fields/#django.db.models.IntegerField
 
-from django.db import models
-from datetime import datetime
-from django.urls import reverse  # Used to generate URLs by reversing the URL patterns
 import json
-from urllib import request
 from configparser import ConfigParser
+from urllib import request
+
+from django.conf import settings
+from django.db import models
+from django.urls import reverse  # Used to generate URLs by reversing the URL patterns
+from django.utils import timezone
 
 
 # Create your models here.
@@ -50,7 +52,7 @@ class Pile(models.Model):
 # logs for temp, dateline, ambient temp, mc, Daily weather?, picture?,
 class Log(models.Model):
 
-    date = models.DateTimeField(default=datetime.now)
+    date = models.DateTimeField(default=timezone.now)
     temp = models.IntegerField(null=True, blank=True)
 
     mosture_content = models.IntegerField(null=True, blank=True)
@@ -68,27 +70,27 @@ class Log(models.Model):
     pile = models.ForeignKey("Pile", on_delete=models.CASCADE, null=True)
     # make a method to grab current ambient temp?
 
-    # how to set the default pile as the one that's in the Primary stage?
+    @staticmethod
     def pile_in_primary():
-        try:
-            the_pile = Pile.objects.filter(location__exact=2)[0]
-            return Pile.objects.filter(location__exact=2)[0].id
-        except IndexError:
-            return 0
+        """Return the pile in the Primary stage, or None if there isn't one."""
+        return Pile.objects.filter(location__location="Primary").first()
 
-        # return Pile.objects.filter(location__exact=2)
-
+    @staticmethod
     def get_cur_temp():
+        """Return the current air temperature in °F, or None if it can't be fetched."""
         config = ConfigParser()
-        config.read("secrets.ini")
-        api_key = config["openweather"]["api_key"]
-        # let's update to this api when it's ready
-        weather_url = f"https://api.openweathermap.org/data/2.5/weather?zip=06238,US&units=imperial&appid={api_key}"
-        response = request.urlopen(weather_url)
-        data = response.read()
-        the_weather = json.loads(data)
-        cur_temp = int(the_weather["main"]["temp"])
-        return cur_temp
+        config.read(settings.BASE_DIR / "secrets.ini")
+        try:
+            api_key = config["openweather"]["api_key"]
+            # let's update to this api when it's ready
+            weather_url = f"https://api.openweathermap.org/data/2.5/weather?zip=06238,US&units=imperial&appid={api_key}"
+            with request.urlopen(weather_url, timeout=5) as response:
+                the_weather = json.loads(response.read())
+            return int(the_weather["main"]["temp"])
+        except (OSError, KeyError, ValueError):
+            # OSError covers network errors and timeouts; KeyError a missing
+            # secrets.ini or an unexpected response; ValueError bad JSON.
+            return None
 
     air_temp = models.IntegerField(null=True, blank=True)
 
