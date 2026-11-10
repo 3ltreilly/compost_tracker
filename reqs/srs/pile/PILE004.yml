@@ -1,0 +1,9 @@
+header: Pile details
+active: true
+type: requirement
+links:
+- UN001: OA32rqQY5Km7tKOS7x1ubPFk8JV7qkCmB6uS4TVYW3w
+- UN002: KCTPDwr7ZoZ9sie2LSaLFP830f0_oW39EelZW59ryZ0
+text: A pile's page shows its ID, current stage, start date and feedstock. Pile IDs
+  containing letters (such as A1) work the same as numeric ones.
+reviewed: U3H9EX1WoREBylpnYquKshLSppPMj50SvEufTkX7Lak

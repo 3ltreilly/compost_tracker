@@ -1,0 +1,9 @@
+header: Stage list
+active: true
+type: requirement
+links:
+- UN002: KCTPDwr7ZoZ9sie2LSaLFP830f0_oW39EelZW59ryZ0
+- UN010: nbaZ2x2YuOVa8ImG05syBmKJISd4CM9Gs1v8RqSz304
+text: The Locations page lists every stage with its duration in days, for example
+  'Primary (42 days)'. With no stages it shows 'There are no locations yet.'
+reviewed: 9QdD487umfeWsVf0q52HaSJEgJVVyhywjBLWXI-17p8

@@ -35,8 +35,8 @@ python_files = ["tests.py", "test_*.py"]
 module-root = ""
 
 [tool.jamb]
-# SRS documents (one per area of the app) get added here in the next stage.
-test_documents = []
+# SRS documents, one per area of the app; tests link to items in these.
+test_documents = ["HOME", "PILE", "LOG", "STAGE"]
 trace_to_ignore = ["PRJ"]
 
 [build-system]

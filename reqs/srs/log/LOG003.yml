@@ -1,0 +1,11 @@
+header: Moving a pile
+active: true
+type: requirement
+links:
+- UN002: KCTPDwr7ZoZ9sie2LSaLFP830f0_oW39EelZW59ryZ0
+- UN003: KviM5C_AIEXJ-ZIjWLE8jq5FVDZxHuDfdYmMLmyIShU
+text: 'Choosing a stage on the Add Log page moves the pile to that stage when the
+  log is saved, and the log records that stage. Leaving the stage blank keeps the
+  pile where it is, and the log records the pile''s current stage. Example: pile 20
+  is in Collection and a log is saved with stage Primary, so pile 20 is now in Primary.'
+reviewed: Sw0BqoT7p786UVUcOVZ1AvpS0DYb5Rnh1n_YYufbBkg

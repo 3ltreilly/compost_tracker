@@ -1,0 +1,11 @@
+header: Log entry checks
+active: true
+type: requirement
+links:
+- UN008: kXSBPV5k8Zo51KEMSxazTuwaZ52hq9698k9R0JkroA8
+text: 'The Add Log page refuses to save, shows what is wrong, and keeps what was typed
+  when: no pile is chosen; the date is missing or not a date and time; temperature,
+  moisture or air temperature is not a whole number; notes are longer than 200 characters;
+  or the chosen stage has not been set up. Nothing is saved and no pile is moved.
+  Example: a date of ''yesterday'' is refused and the other fields keep their values.'
+reviewed: SQl8bewA1gBlDzd2VbI0O9a4E_OY7KxNWI9NfEXfM4A

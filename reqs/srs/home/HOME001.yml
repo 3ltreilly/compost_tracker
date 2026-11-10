@@ -1,0 +1,8 @@
+header: Record counts
+active: true
+type: requirement
+links:
+- UN009: kRGia19TIwWAwr7Ng5NQRhgplJe2lqw3_cx0-zzG3Yg
+text: 'The home page shows how many piles, stages and logs are recorded. Example:
+  with 22 piles, 4 stages and 187 logs it shows Piles: 22, Locations: 4, Logs: 187.'
+reviewed: LfVfWV2xL-uDAQlQH3T--LkAnrKdtoTEdtpS4Gh704I

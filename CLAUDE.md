@@ -10,8 +10,10 @@ Requirements live in `reqs/` as YAML and are managed with `uv run jamb`.
 - `PRJ` (`reqs/prj`): the project itself, one item.
 - `UN` (`reqs/un`): user needs, written in Bernie's voice, saying *why*.
   No implementation detail.
-- SRS documents (one per area of the app, as the user sees it): not created yet.
-  Each will be listed in `test_documents` in `pyproject.toml`.
+- SRS documents, one per area of the app as the user sees it, all under `reqs/srs/`:
+  `HOME` (home page), `PILE` (Add Pile, pile list, pile page), `LOG` (Add Log),
+  `STAGE` (Locations page, stage durations). Listed in `test_documents` in
+  `pyproject.toml`; tests link to these, never to UN.
 
 Rules:
 

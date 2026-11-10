@@ -1,0 +1,12 @@
+header: Last move and next move
+active: true
+type: requirement
+links:
+- UN003: KviM5C_AIEXJ-ZIjWLE8jq5FVDZxHuDfdYmMLmyIShU
+text: 'A pile''s page shows when it last moved and when its next move is due. Last
+  moved is the date of the pile''s earliest log that recorded its current stage, or
+  midnight (local time) at the start of its start date if there is no such log. Next
+  move is last moved plus the current stage''s duration in days. If the stage has
+  no duration, next move is left blank. Example: pile 19''s earliest Primary log is
+  2025-03-15 and Primary lasts 42 days, so its next move is 2025-04-26.'
+reviewed: w4Hp5mwK2RD4vOcZKH8mPxcry3PBtR-T_EvGx_r0lVU

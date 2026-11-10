@@ -1,0 +1,9 @@
+header: Temperature chart
+active: true
+type: requirement
+links:
+- UN004: 5CsehiapRxB6-iVEx-032Opwxkk0mf1vAAk_HPdaYl4
+text: 'A pile''s page charts temperature against date, with one point per log that
+  has a temperature, including readings of 0. Logs without a temperature are left
+  off. Example: logs with temperatures 140, blank and 0 give two points.'
+reviewed: BQiD0LAR2xKzSKjc_m97b6kBqaiZcV27XSwGSnCY5_g

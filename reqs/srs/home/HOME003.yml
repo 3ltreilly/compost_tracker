@@ -1,0 +1,13 @@
+header: Next move due
+active: true
+type: requirement
+links:
+- UN003: KviM5C_AIEXJ-ZIjWLE8jq5FVDZxHuDfdYmMLmyIShU
+- UN009: kRGia19TIwWAwr7Ng5NQRhgplJe2lqw3_cx0-zzG3Yg
+text: 'The home page names the pile whose next move (as worked out in PILE008) is
+  soonest, among piles that are not in Cure/Storage and whose stage has a duration,
+  and shows that date. It shows the soonest date even if it has already passed, without
+  marking it overdue. If no pile qualifies it shows ''no moves scheduled''. If two
+  piles are due at the same moment, either may be shown. Example: pile 17 is due 2025-04-13
+  and pile 19 is due 2025-04-26, so it shows move pile 17 on April 13, 2025.'
+reviewed: CFy4iXVMhU14MxY0i4aCsdMF2NJIHK0HYxoOEPn3E-A

@@ -1,0 +1,11 @@
+header: Pile in Primary
+active: true
+type: requirement
+links:
+- UN009: kRGia19TIwWAwr7Ng5NQRhgplJe2lqw3_cx0-zzG3Yg
+- UN002: KCTPDwr7ZoZ9sie2LSaLFP830f0_oW39EelZW59ryZ0
+text: 'The home page shows the ID of the pile currently in the Primary stage. If more
+  than one pile is in Primary it shows the one whose ID sorts first as text (so 10
+  comes before 9). If no pile is in Primary the line is left blank. Example: pile
+  19 is in Primary, so it shows 19.'
+reviewed: 4lluBjsoo0BAvtvAWBqoy0M8aq6U8-MZbHCBe0yT0T0

@@ -1,0 +1,12 @@
+header: Pile entry checks
+active: true
+type: requirement
+links:
+- UN008: kXSBPV5k8Zo51KEMSxazTuwaZ52hq9698k9R0JkroA8
+- UN001: OA32rqQY5Km7tKOS7x1ubPFk8JV7qkCmB6uS4TVYW3w
+text: 'The Add Pile page refuses to save, shows what is wrong, and keeps what was
+  typed when: the ID is blank or already used by another pile, the start date is missing
+  or not a date, no stage is chosen, or the chosen stage has not been set up. The
+  Add Pile page never changes an existing pile. Example: adding ID 19 when pile 19
+  exists shows ''A pile with this ID already exists.'' and pile 19 is unchanged.'
+reviewed: OBjfe-hJ42MZbDR_01cIKL2Ept7VbOSJ66W8H4Y8uro
