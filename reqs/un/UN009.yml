@@ -1,0 +1,9 @@
+header: See the operation at a glance
+active: true
+type: requirement
+links:
+- PRJ001: nHDVqAKSteWnBMz35fN0JQDQbAkS-FPOLlHhl9ru8fc
+text: I need one page that shows the overall state of things (how many piles there
+  are, which pile is in Primary and what's due next) so I don't have to open every
+  pile to find out.
+reviewed: kRGia19TIwWAwr7Ng5NQRhgplJe2lqw3_cx0-zzG3Yg

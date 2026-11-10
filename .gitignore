@@ -56,3 +56,4 @@ venv.bak/
 .history
 .DS_Store
 compost_tracker/.DS_Store
+db/diskstation.db.sqlite3

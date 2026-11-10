@@ -1,0 +1,8 @@
+header: Trustworthy entries
+active: true
+type: requirement
+links:
+- PRJ001: nHDVqAKSteWnBMz35fN0JQDQbAkS-FPOLlHhl9ru8fc
+text: I need the app to stop me saving an entry that's wrong or incomplete and tell
+  me what to fix, without losing what I typed, so my records stay trustworthy.
+reviewed: kXSBPV5k8Zo51KEMSxazTuwaZ52hq9698k9R0JkroA8

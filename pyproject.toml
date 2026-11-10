@@ -19,6 +19,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "jamb>=2.0.0",
     "pytest>=9.2.0",
     "pytest-django>=4.14.0",
     "ruff>=0.17.3",
@@ -32,6 +33,11 @@ python_files = ["tests.py", "test_*.py"]
 
 [tool.uv.build-backend]
 module-root = ""
+
+[tool.jamb]
+# SRS documents (one per area of the app) get added here in the next stage.
+test_documents = []
+trace_to_ignore = ["PRJ"]
 
 [build-system]
 requires = ["uv_build>=0.11.2,<0.12.0"]

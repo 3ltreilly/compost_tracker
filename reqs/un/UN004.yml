@@ -1,0 +1,8 @@
+header: Track pile temperature
+active: true
+type: requirement
+links:
+- PRJ001: nHDVqAKSteWnBMz35fN0JQDQbAkS-FPOLlHhl9ru8fc
+text: I need to record a pile's temperature and see how it changes over time, so I
+  can tell whether it's composting hot enough and when it's cooling down.
+reviewed: 5CsehiapRxB6-iVEx-032Opwxkk0mf1vAAk_HPdaYl4

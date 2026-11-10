@@ -1,0 +1,7 @@
+active: true
+header: Compost Tracker
+type: requirement
+text: A small web app for tracking horse manure compost piles as they move through
+  the composting stages, recording temperature, turning and other checks along the
+  way.
+reviewed: nHDVqAKSteWnBMz35fN0JQDQbAkS-FPOLlHhl9ru8fc

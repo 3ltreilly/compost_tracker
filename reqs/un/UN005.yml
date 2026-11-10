@@ -1,0 +1,8 @@
+header: Track turning
+active: true
+type: requirement
+links:
+- PRJ001: nHDVqAKSteWnBMz35fN0JQDQbAkS-FPOLlHhl9ru8fc
+text: I need to record when I turn a pile and see when it was last turned, so I can
+  keep turning on schedule.
+reviewed: 9iLBXbPURVPyB78kvBwFdkt9t87TD8aB_521ltDx7Uw

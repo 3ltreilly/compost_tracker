@@ -1,0 +1,8 @@
+header: Set how long each stage lasts
+active: true
+type: requirement
+links:
+- PRJ001: nHDVqAKSteWnBMz35fN0JQDQbAkS-FPOLlHhl9ru8fc
+text: I need to set how long a pile should stay in each stage, so the schedule matches
+  how I actually compost.
+reviewed: nbaZ2x2YuOVa8ImG05syBmKJISd4CM9Gs1v8RqSz304
