@@ -27,4 +27,7 @@ Rules:
 ## Code style
 
 - One import per line, sorted.
-- Tests in `pile_tracker/tests.py`, using pytest-django fixtures (`client`, `db`).
+- Tests live in `pile_tracker/tests/`, one file per SRS area (`test_home.py`,
+  `test_pile.py`, `test_log.py`, `test_stage.py`). Shared fixtures are in
+  `conftest.py` (the weather API is always stubbed out), helpers in `helpers.py`.
+- Check traceability with `uv run pytest --jamb --jamb-fail-uncovered`.

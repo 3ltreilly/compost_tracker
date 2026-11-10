@@ -9,7 +9,7 @@
     <li><strong>Piles:</strong> {{ num_piles }}</li>
     <li><strong>Locations:</strong> {{ num_locations }}</li>
     <li><strong>Logs:</strong> {{ num_logs }}</li>
-    <li><strong>Pile number in primary stage:</strong> {{ whos_in_primary }}</li>
+    <li><strong>Pile number in primary stage:</strong> {{ whos_in_primary|default_if_none:"" }}</li>
     <hr>
     {% if next_pile %}
     <li><strong>Next action:</strong> move pile <strong>{{ next_pile }}</strong> on <strong>{{ next_date }}</strong></li>

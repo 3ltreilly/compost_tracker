@@ -21,6 +21,7 @@ dependencies = [
 dev = [
     "jamb>=2.0.0",
     "pytest>=9.2.0",
+    "pytest-cov>=7.1.0",
     "pytest-django>=4.14.0",
     "ruff>=0.17.3",
 ]
@@ -43,5 +44,7 @@ trace_to_ignore = ["PRJ"]
 requires = ["uv_build>=0.11.2,<0.12.0"]
 build-backend = "uv_build"
 
-[tool.isort]
-profile = "google"
+[tool.coverage.run]
+source = ["compost_tracker", "pile_tracker"]
+omit = ["*/migrations/*", "*/test_*.py", "*/tests.py", "*/asgi.py", "*/wsgi.py"]
+branch = true

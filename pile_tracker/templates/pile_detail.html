@@ -7,7 +7,7 @@
 <p><strong>Date Started:</strong> {{ born_date }} <strong>Feedstock:</strong> {{ feedstock }}</p>
 <p>Last turned: {{ last_turned }}</p>
 <p>Last Move: {{ last_moved }}</p>
-<p>Next Move: {{ next_move }}</p>
+<p>Next Move: {{ next_move|default_if_none:"" }}</p>
 
 
 <div style="margin-left:20px;margin-top:20px">
