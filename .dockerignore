@@ -29,3 +29,4 @@ README.md
 db/
 .env
 secrets.ini
+staticfiles/

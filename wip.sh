@@ -49,8 +49,7 @@ docker run --network host \
 # the app runs at http://milhouse.local:8001/pile_tracker/
 # it applies any new database migrations each time it starts
 
-# one-time setup: settings such as the weather API key live in
-# /volume1/docker/compost_tracker/.env on the DiskStation (same format as .env.example).
-# copy it there from this computer:
+# settings live in .env, the same file on this computer and the DiskStation
+# (see .env.example). copy it there whenever it changes, then stop/rm/run the
+# container again:
 scp .env 3ltreilly@milhouse.local:/volume1/docker/compost_tracker/.env
-# to change the key later, edit that file, then stop/rm/run the container again
