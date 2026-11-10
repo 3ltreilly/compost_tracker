@@ -1,6 +1,37 @@
 {
-    "python.formatting.provider": "black",
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true,
-    "python.defaultInterpreterPath": ".venv/bin/python"
+    "python.testing.pytestArgs": [
+        "pile_tracker"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#dfcc6c",
+        "activityBar.activeBorder": "#15202b",
+        "activityBar.background": "#dfcc6c",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#229d89",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "activityBarTop.activeBackground": "#dfcc6c",
+        "activityBarTop.activeBorder": "#15202b",
+        "activityBarTop.background": "#dfcc6c",
+        "activityBarTop.foreground": "#15202b",
+        "activityBarTop.inactiveForeground": "#15202b99",
+        "commandCenter.border": "#15202b99",
+        "commandCenter.foreground": "#15202b",
+        "sash.hoverBorder": "#dfcc6c",
+        "statusBar.background": "#d6be42",
+        "statusBar.debuggingBackground": "#d6be42",
+        "statusBar.debuggingForeground": "#15202b",
+        "statusBar.foreground": "#15202b",
+        "statusBar.inactiveBackground": "#d6be42",
+        "statusBarItem.hoverBackground": "#bca429",
+        "statusBarItem.remoteBackground": "#1c8372",
+        "statusBarItem.remoteForeground": "#15202b",
+        "titleBar.activeBackground": "#d6be42",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveBackground": "#d6be4299",
+        "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.color": "#d6be42"
 }
