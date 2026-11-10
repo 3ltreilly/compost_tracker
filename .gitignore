@@ -6,9 +6,6 @@ __pycache__
 db.sqlite3
 media
 
-# Backup files # 
-*.bak 
-
 # Python # 
 *.py[cod] 
 *$py.class 
@@ -32,10 +29,6 @@ wheels/
 *.manifest 
 *.spec 
 
-# Installer logs 
-pip-log.txt 
-pip-delete-this-directory.txt 
-
 # Unit test / coverage reports 
 htmlcov/ 
 .tox/ 
@@ -47,18 +40,6 @@ nosetests.xml
 coverage.xml 
 *.cover 
 .hypothesis/ 
-
-# Jupyter Notebook 
-.ipynb_checkpoints 
-
-# pyenv 
-.python-version 
-
-# celery 
-celerybeat-schedule.* 
-
-# SageMath parsed files 
-*.sage.py 
 
 # Environments 
 .env 
@@ -75,3 +56,9 @@ venv.bak/
 .history
 .DS_Store
 compost_tracker/.DS_Store
+db/diskstation.db.sqlite3
+.jamb
+.env
+
+# collected by manage.py collectstatic
+staticfiles/

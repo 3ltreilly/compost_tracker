@@ -1,7 +1,8 @@
-"""compost_tracker URL Configuration
+"""URL configuration for the compost_tracker project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
+
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -13,25 +14,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include
+from django.urls import path
+from django.views.generic import RedirectView
 
-# from django.urls import include
-
+# Static files are served by runserver in development and by WhiteNoise in
+# production (see MIDDLEWARE in settings.py), so they need no URL here.
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("pile_tracker/", include("pile_tracker.urls")),
-]
-
-# Add URL maps to redirect the base URL to our application
-from django.views.generic import RedirectView
-
-urlpatterns += [
+    # Send the bare site address to the app.
     path("", RedirectView.as_view(url="pile_tracker/", permanent=True)),
 ]
-
-# Use static() to add url mapping to serve static files during development (only)
-from django.conf import settings
-from django.conf.urls.static import static
-
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

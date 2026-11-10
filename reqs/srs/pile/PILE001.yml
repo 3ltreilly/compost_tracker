@@ -1,0 +1,12 @@
+header: Add a pile
+active: true
+type: requirement
+links:
+- UN001: OA32rqQY5Km7tKOS7x1ubPFk8JV7qkCmB6uS4TVYW3w
+- UN002: KCTPDwr7ZoZ9sie2LSaLFP830f0_oW39EelZW59ryZ0
+text: 'The Add Pile page creates a pile from a pile ID (up to 20 characters), a start
+  date (today by default) and a starting stage (required). New piles get the feedstock
+  ''horse manure''; feedstock can only be changed in the admin. After saving, the
+  user is returned to the home page. Example: ID 24, start date 2025-11-09, stage
+  Collection creates pile 24 in Collection.'
+reviewed: -sPBACB3NFs_nDkJBT0c4mj72l9LdNQ9kirYvCwfIq8

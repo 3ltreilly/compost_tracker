@@ -1,45 +1,39 @@
-# For more information, please refer to https://aka.ms/vscode-docker-python
 FROM python:3.14-slim
 
-EXPOSE 8000
-
-# Keeps Python from generating .pyc files in the container
-ENV PYTHONDONTWRITEBYTECODE=1
-
-# Turns off buffering for easier container logging
-# tell poetry to now make a virtual env
-ENV PYTHONUNBUFFERED=1
-
-# production: debug off. DJANGO_SECRET_KEY comes from the env file on the server
-ENV DJANGO_DEBUG=0
+# PYTHONDONTWRITEBYTECODE: don't write .pyc files in the container
+# PYTHONUNBUFFERED: send output straight to the container log
+# UV_PYTHON_DOWNLOADS: use this image's Python instead of downloading one
+# UV_LINK_MODE: copy packages into the venv rather than linking to uv's cache
+# PATH: run the venv's Python (with Django installed), not the system Python
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    UV_PYTHON_DOWNLOADS=never \
+    UV_LINK_MODE=copy \
+    PATH="/app/.venv/bin:$PATH"
 
 # uv from its official image, pinned so builds are repeatable
 COPY --from=ghcr.io/astral-sh/uv:0.11.2 /uv /bin/uv
-# use this image's Python instead of downloading one, and copy packages into the venv
-# rather than linking them to uv's cache
-ENV UV_PYTHON_DOWNLOADS=never
-ENV UV_LINK_MODE=copy
 WORKDIR /app
 
+# Install dependencies before copying the code, so a code change doesn't
+# throw away the cached install.
 COPY pyproject.toml uv.lock ./
+RUN uv sync --locked --no-dev --no-install-project
+
+COPY manage.py ./
 COPY compost_tracker ./compost_tracker
 COPY pile_tracker ./pile_tracker
-COPY manage.py ./
-COPY readme.md ./
 
-# get the database, for debugging
-# COPY db.sqlite3 ./
+# Gather CSS/JS into /app/staticfiles, where WhiteNoise serves them.
+RUN python manage.py collectstatic --noinput
 
-RUN uv sync --locked --no-dev
+# Production: debug off. DJANGO_SECRET_KEY and OPENWEATHER_API_KEY come from
+# `docker run --env-file`. The database lives on a volume mounted at /app/db.
+ENV DJANGO_DEBUG=0
 
-# Creates a non-root user with an explicit UID and adds permission to access the /app folder
-# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
-# RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
-# USER appuser
+EXPOSE 8001
 
-# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-# CMD ["gunicorn", "--bind", "0.0.0.0:8001", "--log-level", "debug", "compost_tracker.wsgi"]
-# go to this website
-# 127.0.0.1:8001/
-
-CMD ["python", "manage.py","runserver", "0.0.0.0:8001"]
+# Apply any new migrations to the database, then start gunicorn, a production
+# web server (Django's runserver is for development only). Access logs go to
+# the container log.
+CMD ["sh", "-c", "python manage.py migrate && gunicorn compost_tracker.wsgi --bind 0.0.0.0:8001 --workers 2 --access-logfile -"]

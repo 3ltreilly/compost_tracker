@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('pile_tracker', '0005_auto_20210323_2219'),
+        ("pile_tracker", "0005_auto_20210323_2219"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='log',
-            options={'ordering': ['date']},
+            name="log",
+            options={"ordering": ["date"]},
         ),
     ]

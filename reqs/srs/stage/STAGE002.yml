@@ -1,0 +1,9 @@
+header: Stage durations
+active: true
+type: requirement
+links:
+- UN010: nbaZ2x2YuOVa8ImG05syBmKJISd4CM9Gs1v8RqSz304
+text: 'Stage durations are set in the admin (login required), and a change applies
+  straight away to every next-move date (PILE008 and HOME003). Example: changing Primary
+  from 42 to 35 days moves pile 19''s next move from 2025-04-26 to 2025-04-19.'
+reviewed: OBp382pnR6F-LvBkrTR8oGiED09bGVIEssZi2RL-N4Q

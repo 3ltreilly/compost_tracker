@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('pile_tracker', '0001_initial'),
+        ("pile_tracker", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='log',
-            name='notes',
-            field=models.CharField(blank=True, help_text='general notes', max_length=200, null=True),
+            model_name="log",
+            name="notes",
+            field=models.CharField(
+                blank=True, help_text="general notes", max_length=200, null=True
+            ),
         ),
     ]

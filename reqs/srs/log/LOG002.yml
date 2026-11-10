@@ -1,0 +1,13 @@
+header: Sensible defaults
+active: true
+type: requirement
+links:
+- UN007: eBktL2TMRlwdFhfuVATnvpa1DIXalLRhPzN_JtMZZp0
+text: 'When the Add Log page opens, the pile is set to the pile in Primary (chosen
+  as in HOME002), the stage to that pile''s current stage, the date to now, and the
+  air temperature to the current outside temperature for ZIP 06238 in degrees F with
+  any fraction dropped. If no pile is in Primary, pile and stage start blank. If the
+  outside temperature cannot be fetched within 5 seconds, air temperature starts blank
+  and the page still opens. Example: pile 19 in Primary and 48.7 F outside gives pile
+  19, stage Primary, air temperature 48.'
+reviewed: tpvvaYg3pMsen2pG7Sp4q1KTBTxpBi4C11yCSyPUXlk

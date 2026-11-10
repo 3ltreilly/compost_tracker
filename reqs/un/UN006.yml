@@ -1,0 +1,8 @@
+header: Record conditions with each check
+active: true
+type: requirement
+links:
+- PRJ001: nHDVqAKSteWnBMz35fN0JQDQbAkS-FPOLlHhl9ru8fc
+text: I need to record moisture, the outside air temperature and free-form notes along
+  with each check, so I can understand later why a pile behaved the way it did.
+reviewed: 1MWerETIYale4_mKttKlM0DY2mZjMYPDRQzAqzz0Gc0

@@ -43,5 +43,13 @@ docker pull 3ltreilly/compost_tracker
 docker stop compost_tracker
 docker rm compost_tracker
 docker run --network host \
+--env-file /volume1/docker/compost_tracker/.env \
 -v /volume1/docker/compost_tracker/db:/app/db \
 --name compost_tracker 3ltreilly/compost_tracker
+# the app runs at http://milhouse.local:8001/pile_tracker/
+# it applies any new database migrations each time it starts
+
+# settings live in .env, the same file on this computer and the DiskStation
+# (see .env.example). copy it there whenever it changes, then stop/rm/run the
+# container again:
+scp .env 3ltreilly@milhouse.local:/volume1/docker/compost_tracker/.env

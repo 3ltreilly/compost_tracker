@@ -1,0 +1,9 @@
+header: Pile list
+active: true
+type: requirement
+links:
+- UN001: OA32rqQY5Km7tKOS7x1ubPFk8JV7qkCmB6uS4TVYW3w
+- UN002: KCTPDwr7ZoZ9sie2LSaLFP830f0_oW39EelZW59ryZ0
+text: The Piles page lists every pile with its ID and current stage, and each ID links
+  to that pile's page. With no piles it shows 'There are no piles yet.'
+reviewed: Y4piDh-_pyJuPfekRDOQlIVjoQd2chP6wYVVRkRSK8E

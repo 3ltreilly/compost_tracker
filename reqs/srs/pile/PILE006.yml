@@ -1,0 +1,11 @@
+header: Check history
+active: true
+type: requirement
+links:
+- UN004: 5CsehiapRxB6-iVEx-032Opwxkk0mf1vAAk_HPdaYl4
+- UN005: 9iLBXbPURVPyB78kvBwFdkt9t87TD8aB_521ltDx7Uw
+- UN006: 1MWerETIYale4_mKttKlM0DY2mZjMYPDRQzAqzz0Gc0
+text: 'A pile''s page lists all of its logs, oldest first, each with its date and
+  temperature, plus ''turn: True'' for logs marked as turned. Moisture, air temperature
+  and notes are not shown on this page; they can be seen in the admin.'
+reviewed: 8hYTAS2WxVWI3dAIJjtABjQOioRgqW_i5ZM63ST0CCY

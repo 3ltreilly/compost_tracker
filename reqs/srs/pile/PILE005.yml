@@ -1,0 +1,10 @@
+header: Last turned
+active: true
+type: requirement
+links:
+- UN005: 9iLBXbPURVPyB78kvBwFdkt9t87TD8aB_521ltDx7Uw
+text: 'A pile''s page shows when it was last turned: the date and time of its most
+  recent log (by log date) marked as turned. If it has never been turned, it shows
+  midnight (local time) at the start of its start date. Example: turns logged on 2025-01-19
+  and 2025-03-15 show 2025-03-15.'
+reviewed: 2pHcft4LVH-aX9HpWCN5H3k1VHcFXeK4k4b8bhVnxFw

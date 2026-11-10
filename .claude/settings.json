@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(jamb review *)",
+      "Bash(uv run jamb review *)",
+      "Bash(.venv/bin/jamb review *)",
+      "Bash(uv run python -m jamb review *)"
+    ]
+  }
+}

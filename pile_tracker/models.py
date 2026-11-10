@@ -1,20 +1,19 @@
 # https://docs.djangoproject.com/en/3.1/ref/models/fields/#django.db.models.IntegerField
 
-from django.db import models
-from datetime import datetime
-from django.urls import reverse  # Used to generate URLs by reversing the URL patterns
 import json
+import os
 from urllib import request
-from configparser import ConfigParser
+
+from django.db import models
+from django.urls import reverse  # Used to generate URLs by reversing the URL patterns
+from django.utils import timezone
 
 
 # Create your models here.
 class Pile(models.Model):
     """Model representing a shit pile"""
 
-    id = models.CharField(
-        max_length=20, primary_key=True, help_text="Unique ID for a pile"
-    )
+    id = models.CharField(max_length=20, primary_key=True, help_text="Unique ID for a pile")
 
     # pile start date
     born_date = models.DateField()
@@ -49,8 +48,7 @@ class Pile(models.Model):
 
 # logs for temp, dateline, ambient temp, mc, Daily weather?, picture?,
 class Log(models.Model):
-
-    date = models.DateTimeField(default=datetime.now)
+    date = models.DateTimeField(default=timezone.now)
     temp = models.IntegerField(null=True, blank=True)
 
     mosture_content = models.IntegerField(null=True, blank=True)
@@ -62,33 +60,31 @@ class Log(models.Model):
         blank=True,
         help_text="new location for the pile",
     )
-    notes = models.CharField(
-        max_length=200, help_text="general notes", null=True, blank=True
-    )
+    notes = models.CharField(max_length=200, help_text="general notes", null=True, blank=True)
     pile = models.ForeignKey("Pile", on_delete=models.CASCADE, null=True)
     # make a method to grab current ambient temp?
 
-    # how to set the default pile as the one that's in the Primary stage?
+    @staticmethod
     def pile_in_primary():
-        try:
-            the_pile = Pile.objects.filter(location__exact=2)[0]
-            return Pile.objects.filter(location__exact=2)[0].id
-        except IndexError:
-            return 0
+        """Return the pile in the Primary stage, or None if there isn't one."""
+        return Pile.objects.filter(location__location="Primary").first()
 
-        # return Pile.objects.filter(location__exact=2)
-
+    @staticmethod
     def get_cur_temp():
-        config = ConfigParser()
-        config.read("secrets.ini")
-        api_key = config["openweather"]["api_key"]
-        # let's update to this api when it's ready
-        weather_url = f"https://api.openweathermap.org/data/2.5/weather?zip=06238,US&units=imperial&appid={api_key}"
-        response = request.urlopen(weather_url)
-        data = response.read()
-        the_weather = json.loads(data)
-        cur_temp = int(the_weather["main"]["temp"])
-        return cur_temp
+        """Return the current air temperature in °F, or None if it can't be fetched."""
+        api_key = os.environ.get("OPENWEATHER_API_KEY")
+        if not api_key:
+            return None
+        try:
+            # let's update to this api when it's ready
+            weather_url = f"https://api.openweathermap.org/data/2.5/weather?zip=06238,US&units=imperial&appid={api_key}"
+            with request.urlopen(weather_url, timeout=5) as response:
+                the_weather = json.loads(response.read())
+            return int(the_weather["main"]["temp"])
+        except OSError, KeyError, ValueError:
+            # OSError covers network errors and timeouts; KeyError an
+            # unexpected response; ValueError bad JSON.
+            return None
 
     air_temp = models.IntegerField(null=True, blank=True)
 

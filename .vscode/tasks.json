@@ -4,6 +4,35 @@
     "version": "2.0.0",
     "tasks": [
         {
+            // Runs the app on this computer at http://localhost:8000 using db/db.sqlite3
+            // (a copy of the DiskStation database; copy it again to refresh).
+            // Reads settings such as OPENWEATHER_API_KEY from .env (see .env.example),
+            // the same file the DiskStation uses. Debug mode is turned on here, not in .env.
+            // Applies any new migrations first. Stop it with the trash can icon or Ctrl+C.
+            "label": "run app locally",
+            "type": "shell",
+            "command": "uv run --env-file .env python manage.py migrate && uv run --env-file .env python manage.py runserver localhost:8000",
+            "options": { "env": { "PYTHONUNBUFFERED": "1", "DJANGO_DEBUG": "1" } },
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "django",
+                "pattern": { "regexp": "^__never_matches__$" },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "Watching for file changes",
+                    "endsPattern": "Quit the server with"
+                }
+            }
+        },
+        {
+            // Starts the local app (if it isn't running) and opens it in Safari.
+            "label": "open local app",
+            "type": "shell",
+            "command": "open -a Safari http://localhost:8000/pile_tracker/",
+            "dependsOn": ["run app locally"],
+            "problemMatcher": []
+        },
+        {
             "label": "open pile tracker",
             "type": "shell",
             "command": "open -a Safari http://192.168.7.32:8000/pile_tracker"

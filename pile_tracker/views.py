@@ -1,12 +1,13 @@
 from datetime import datetime
+from datetime import time
 from datetime import timedelta
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils import timezone
 from django.views import generic
-import pytz
 
 from pile_tracker.forms import LogModelForm
 from pile_tracker.forms import PileModelForm
@@ -16,51 +17,48 @@ from pile_tracker.models import Pile
 
 
 # useful functions
+def start_of_day(date):
+    """Midnight at the start of `date`, in the site's time zone."""
+    return timezone.make_aware(datetime.combine(date, time.min))
+
+
 def last_moved(pk):
-    id = get_object_or_404(Pile, pk=pk)
+    pile = get_object_or_404(Pile, pk=pk)
     log_pile = Log.objects.filter(pile__exact=pk)
     try:
-        last_moved_date = (
-            log_pile.filter(location__exact=id.location).earliest("date").date
-        )
-    except:
-        last_moved_date = datetime.combine(id.born_date, datetime.min.time(), pytz.UTC)
-    return last_moved_date
+        return log_pile.filter(location__exact=pile.location).earliest("date").date
+    except Log.DoesNotExist:
+        return start_of_day(pile.born_date)
 
 
 def next_move(pk):
-    id = get_object_or_404(Pile, pk=pk)
-    prev_move = last_moved(pk)
-    return prev_move + timedelta(days=id.location.days_at_state)
+    """Date the pile is due to move on, or None if its location has no time limit."""
+    pile = get_object_or_404(Pile, pk=pk)
+    if pile.location.days_at_state is None:
+        return None
+    return last_moved(pk) + timedelta(days=pile.location.days_at_state)
 
 
 # Create your views here.
 def index(request):
     """View function for home page of site."""
-
     # Generate counts of some of the main objects
     num_piles = Pile.objects.all().count()
     num_locations = Location.objects.all().count()
     num_logs = Log.objects.all().count()
-    whos_in_primary = Pile.objects.filter(location__exact=2).first()
+    whos_in_primary = Log.pile_in_primary()
 
-    wip = {}
-    for pile in Pile.objects.all():
-        if pile.location.location != "Cure/Storage":
-            wip.update(
-                {
-                    # pile.id: next_move(pile.id)
-                    next_move(pile.id): pile.id
-                }
-            )
-    next_pile = wip[sorted(wip)[0]]
-    next_date = sorted(wip)[0]
+    # (move date, pile id) for every pile that still has a move ahead of it
+    upcoming_moves = []
+    for pile in Pile.objects.exclude(location__location="Cure/Storage"):
+        move_date = next_move(pile.id)
+        if move_date is not None:
+            upcoming_moves.append((move_date, pile.id))
 
-    # wip_list =
-    # for pile in Pile.objects.all():
-    #     wip.update({
-    #         pile.id: next_move(pile.id)
-    #     })
+    if upcoming_moves:
+        next_date, next_pile = min(upcoming_moves)
+    else:
+        next_date, next_pile = None, None
 
     context = {
         "num_piles": num_piles,
@@ -81,35 +79,29 @@ class PileListView(generic.ListView):
 
 # lets do thie without the generic option
 def PileDetailView(request, pk):
-
-    id = get_object_or_404(Pile, pk=pk)
+    pile = get_object_or_404(Pile, pk=pk)
     log_pile = Log.objects.filter(pile__exact=pk)
     try:
         last_turned = log_pile.filter(turn__exact=True).latest("date").date
-    # except ObjectDoesNotExist:
-    except:
-        last_turned = datetime.combine(id.born_date, datetime.min.time())
+    except Log.DoesNotExist:
+        last_turned = start_of_day(pile.born_date)
 
-    n_m = next_move(pk)
-    l_m = last_moved(pk)
-
-    # loop to make chart data
+    # loop to make chart data; Chart.js wants timestamps in milliseconds
     data = []
     for log in log_pile:
-        if log.temp:
-            wip = {"x": log.date.timestamp(), "y": log.temp}
-            data.append(wip)
+        if log.temp is not None:
+            data.append({"x": log.date.timestamp() * 1000, "y": log.temp})
 
     context = {
         "data": data,
-        "id": id,
-        "location": id.location,
-        "born_date": id.born_date,
-        "feedstock": id.feedstock,
+        "id": pile,
+        "location": pile.location,
+        "born_date": pile.born_date,
+        "feedstock": pile.feedstock,
         "last_turned": last_turned,
         "log_pile": log_pile,
-        "next_move": n_m,
-        "last_moved": l_m,
+        "next_move": next_move(pk),
+        "last_moved": last_moved(pk),
     }
 
     return render(request, "pile_detail.html", context=context)
@@ -119,159 +111,65 @@ class LocationListView(generic.ListView):
     model = Location
 
 
-# class LogCreate(CreateView):
-#     model = Log
-#     fields = ['date', 'temp']
-#     fields = '__all__'
-#     initial = {
-#         'pile': Log.pile_in_primary()[0].id,
-#         'air_temp': Log.get_cur_temp()
-#         }
-
-#     success_url = reverse_lazy('index')
-
-
 def logcreate(request):
-    # get Pile info to do stuff with it
-    try:
-        primary_pile = Log.pile_in_primary()[0].id
-        id = get_object_or_404(Pile, pk=primary_pile)
-        location = id.location
-    except:
-        primary_pile = ""
-        location = ""
-    # Pile.objects.get(id=Log.pile_in_primary()[0].id)     ?????
-
-    # the_log = get_object_or_404(Log)
-    # If this is a POST request then process the Form data
     if request.method == "POST":
-
-        # Create a form instance and populate it with data from the request (binding):
         form = LogModelForm(request.POST)
 
-        # # Check if the form is valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # (here we just write it to the model due_back field)
-            date = form.cleaned_data["date"]
-            temp = form.cleaned_data["temp"]
-            mosture_content = form.cleaned_data["mosture_content"]
-            turn = form.cleaned_data["turn"]
+            pile = form.cleaned_data["pile"]
+            # a blank location means the pile stays where it is
+            location = form.cleaned_data["location"] or pile.location
 
-            notes = form.cleaned_data["notes"]
-
-            pile = form.cleaned_data[
-                "pile"
-            ].first()  # get_object_or_404(Pile, pk=form.cleaned_data['pile'])
-            # pile = form.cleaned_data['pile']
-
-            if form.cleaned_data["location"] == "":
-                location = Location.objects.filter(pile__exact=pile).first()
-            else:
-                location = Location.objects.filter(
-                    location__exact=form.cleaned_data["location"]
-                ).first()
-
-            # save the new log
-            log = Log(
-                date=date,
-                temp=temp,
-                mosture_content=mosture_content,
-                turn=turn,
+            Log.objects.create(
+                date=form.cleaned_data["date"],
+                temp=form.cleaned_data["temp"],
+                mosture_content=form.cleaned_data["mosture_content"],
+                air_temp=form.cleaned_data["air_temp"],
+                turn=form.cleaned_data["turn"],
                 location=location,
-                notes=notes,
+                notes=form.cleaned_data["notes"],
                 pile=pile,
             )
-            log.save()
-            # save over the pile again to capture the updated location
-            if location:
-                pile_update = Pile(
-                    id=pile.id,
-                    born_date=pile.born_date,
-                    feedstock=pile.feedstock,
-                    location=location,
-                )
-                pile_update.save()
 
-            # redirect to a new URL:
-        return HttpResponseRedirect(reverse("index"))
+            # move the pile to its new location
+            if location != pile.location:
+                pile.location = location
+                pile.save(update_fields=["location"])
 
-    # If this is a GET (or any other method) create the default form.
+            return HttpResponseRedirect(reverse("index"))
+
+    # If this is a GET, create the form with sensible defaults.
     else:
-        # proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
+        primary_pile = Log.pile_in_primary()
         form = LogModelForm(
             initial={
-                "date": datetime.now,
-                # 'pile': Log.pile_in_primary()[0].id,
-                # 'pile': Pile.objects.get(id=Log.pile_in_primary()[0].id),
+                "date": timezone.now,
                 "pile": primary_pile,
                 "air_temp": Log.get_cur_temp(),
-                "location": location,
-                # 'location': Location.objects.filter(location__exact=id.location),
+                "location": primary_pile.location.location if primary_pile else "",
             }
         )
 
-    context = {
-        "form": form,
-        # 'the_log': the_log,
-    }
-
-    return render(request, "pile_tracker/log_form.html", context=context)
+    # Invalid POSTs fall through to here so the errors are shown.
+    return render(request, "pile_tracker/log_form.html", context={"form": form})
 
 
 def pilecreate(request):
-    # get Pile info to do stuff with it
-    try:
-        primary_pile = Log.pile_in_primary()[0].id
-        id = get_object_or_404(Pile, pk=primary_pile)
-        location = id.location
-    except:
-        primary_pile = ""
-        location = ""
-
-    # If this is a POST request then process the Form data
     if request.method == "POST":
-
-        # Create a form instance and populate it with data from the request (binding):
         form = PileModelForm(request.POST)
 
-        # # Check if the form is valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # (here we just write it to the model due_back field)
-            born_date = form.cleaned_data["born_date"]
-            id = form.cleaned_data["id"]
-
-            if form.cleaned_data["location"] == "":
-                location = Location.objects.filter(pile__exact=id).first()
-            else:
-                location = Location.objects.filter(
-                    location__exact=form.cleaned_data["location"]
-                ).first()
-
-            # save the new log
-            pile = Pile(
-                born_date=born_date,
-                location=location,
-                id=id,
+            Pile.objects.create(
+                id=form.cleaned_data["id"],
+                born_date=form.cleaned_data["born_date"],
+                location=form.cleaned_data["location"],
             )
-            pile.save()
 
-            # redirect to a new URL:
-        return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("index"))
 
-    # If this is a GET (or any other method) create the default form.
+    # If this is a GET, create a blank form.
     else:
-        form = PileModelForm(
-            initial={
-                "born_date": datetime.now,
-                "pile": primary_pile,
-                "location": location,
-            }
-        )
+        form = PileModelForm(initial={"born_date": timezone.localdate})
 
-    context = {
-        "form": form,
-    }
-
-    return render(request, "pile_tracker/pile_form.html", context=context)
+    # Invalid POSTs fall through to here so the errors are shown.
+    return render(request, "pile_tracker/pile_form.html", context={"form": form})

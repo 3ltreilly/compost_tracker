@@ -1,0 +1,36 @@
+# Compost Tracker
+
+Django app for tracking horse manure compost piles through their stages.
+Run things with `uv run` (e.g. `uv run pytest`, `uv run python manage.py runserver`).
+
+## Requirements (jamb)
+
+Requirements live in `reqs/` as YAML and are managed with `uv run jamb`.
+
+- `PRJ` (`reqs/prj`): the project itself, one item.
+- `UN` (`reqs/un`): user needs, written in Bernie's voice, saying *why*.
+  No implementation detail.
+- SRS documents, one per area of the app as the user sees it, all under `reqs/srs/`:
+  `HOME` (home page), `PILE` (Add Pile, pile list, pile page), `LOG` (Add Log),
+  `STAGE` (Locations page, stage durations). Listed in `test_documents` in
+  `pyproject.toml`; tests link to these, never to UN.
+
+Rules:
+
+- Only Bernie approves requirements. Never run `jamb review` (`mark`, `clear` or
+  `reset`), and never write `reviewed:` values or link hashes by hand.
+  `.claude/settings.json` denies these commands.
+- Never use `--before`/`--after` or `jamb reorder`; UIDs are permanent names.
+- Behavior changes go through `/req-feature`: requirement first, then a failing
+  test marked `@pytest.mark.requirement("<SRS UID>")`, then the code.
+
+## Code style
+
+- Google Python Style Guide, enforced by ruff (config in `pyproject.toml`):
+  100-column lines (not Google's 80), one import per line, Google-style docstrings
+  (`Args:`/`Returns:`/`Raises:`). Check with `uv run ruff check` and
+  `uv run ruff format --check`.
+- Tests live in `pile_tracker/tests/`, one file per SRS area (`test_home.py`,
+  `test_pile.py`, `test_log.py`, `test_stage.py`). Shared fixtures are in
+  `conftest.py` (the weather API is always stubbed out), helpers in `helpers.py`.
+- Check traceability with `uv run pytest --jamb --jamb-fail-uncovered`.

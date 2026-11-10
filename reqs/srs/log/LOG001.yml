@@ -1,0 +1,13 @@
+header: Record a check
+active: true
+type: requirement
+links:
+- UN004: 5CsehiapRxB6-iVEx-032Opwxkk0mf1vAAk_HPdaYl4
+- UN005: 9iLBXbPURVPyB78kvBwFdkt9t87TD8aB_521ltDx7Uw
+- UN006: 1MWerETIYale4_mKttKlM0DY2mZjMYPDRQzAqzz0Gc0
+text: 'The Add Log page saves a check on one pile with: date and time (required);
+  temperature, moisture and outside air temperature (optional whole numbers); whether
+  the pile was turned; an optional new stage; and notes (optional, up to 200 characters).
+  After saving, the user is returned to the home page. Example: pile 19, 2025-11-09
+  08:00, temperature 135, air temperature 41, turned, saves one log with those values.'
+reviewed: PN1XUgRY_FdKPbvdeAmjqM8MfzOSSStGFO2fCZvt8F4
